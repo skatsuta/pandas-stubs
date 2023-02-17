@@ -43,6 +43,7 @@ from pandas._typing import (
     Level,
     NaPosition,
     Scalar,
+    T,
     np_ndarray_anyint,
     np_ndarray_bool,
     np_ndarray_int64,
@@ -68,7 +69,7 @@ class _IndexGetitemMixin(Generic[S1]):
     @overload
     def __getitem__(self, idx: int) -> S1: ...
 
-class Index(IndexOpsMixin, PandasObject):
+class Index(IndexOpsMixin, PandasObject, Generic[T]):
     __hash__: ClassVar[None]  # type: ignore[assignment]
     @overload
     def __new__(
@@ -89,7 +90,7 @@ class Index(IndexOpsMixin, PandasObject):
         name=...,
         tupleize_cols: bool = ...,
         **kwargs,
-    ) -> Index: ...
+    ) -> Index[T]: ...
     @property
     def str(self) -> StringMethods[Index, MultiIndex]: ...
     @property

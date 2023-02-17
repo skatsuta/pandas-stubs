@@ -4,7 +4,17 @@ import sys
 
 
 def mypy_src():
-    cmd = ["mypy", "pandas-stubs", "tests", "--no-incremental"]
+    cmd = [
+        "mypy",
+        "pandas-stubs",
+        "tests",
+        "--no-incremental",
+        "--show-error-context",
+        "--show-column-numbers",
+        "--show-error-end",
+        "--pretty",
+        "--show-absolute-path",
+    ]
     subprocess.run(cmd, check=True)
 
 

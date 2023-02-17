@@ -106,6 +106,7 @@ from pandas._typing import (
     Scalar,
     SeriesAxisType,
     SortKind,
+    T,
     TimestampConvention,
     WriteBuffer,
     np_ndarray_anyint,
@@ -825,7 +826,7 @@ class Series(IndexOpsMixin, NDFrame, Generic[S1]):
     @overload
     def drop(
         self,
-        labels: Hashable | list[HashableT1] | Index = ...,
+        labels: Hashable | list[HashableT1] | Index[T] = ...,
         *,
         axis: Axis = ...,
         index: Hashable | list[HashableT2] | Index = ...,
@@ -837,7 +838,7 @@ class Series(IndexOpsMixin, NDFrame, Generic[S1]):
     @overload
     def drop(
         self,
-        labels: Hashable | list[HashableT1] | Index = ...,
+        labels: Hashable | list[HashableT1] | Index[T] = ...,
         *,
         axis: Axis = ...,
         index: Hashable | list[HashableT2] | Index = ...,
@@ -849,7 +850,7 @@ class Series(IndexOpsMixin, NDFrame, Generic[S1]):
     @overload
     def drop(
         self,
-        labels: Hashable | list[HashableT1] | Index = ...,
+        labels: Hashable | list[HashableT1] | Index[T] = ...,
         *,
         axis: Axis = ...,
         index: Hashable | list[HashableT2] | Index = ...,
