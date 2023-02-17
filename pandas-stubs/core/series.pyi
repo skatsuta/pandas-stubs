@@ -65,9 +65,6 @@ from pandas.core.window import (
     Expanding,
     ExponentialMovingWindow,
     Rolling,
-)
-from pandas.core.window.rolling import (
-    Rolling,
     Window,
 )
 from typing_extensions import TypeAlias
