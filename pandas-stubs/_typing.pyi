@@ -314,8 +314,6 @@ TimedeltaConvertibleTypes: TypeAlias = (
 # passed in, a DataFrame is always returned.
 NDFrameT = TypeVar("NDFrameT", bound=NDFrame)
 
-IndexT = TypeVar("IndexT", bound=Index)
-
 # Interval closed type
 IntervalT = TypeVar(
     "IntervalT",
