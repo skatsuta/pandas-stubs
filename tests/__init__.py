@@ -29,9 +29,15 @@ lxml_skip = pytest.mark.skipif(
 # This is only needed temporarily due to no wheels being available for lxml on 3.11
 
 
-def check(actual: T, klass: type, dtype: type | None = None, attr: str = "left") -> T:
+def check(
+    actual: T,
+    klass: type,
+    dtype: type | tuple[type, ...] | None = None,
+    attr: str = "left",
+) -> T:
     if not isinstance(actual, klass):
         raise RuntimeError(f"Expected type '{klass}' but got '{type(actual)}'")
+
     if dtype is None:
         return actual  # type: ignore[return-value]
 
@@ -47,6 +53,7 @@ def check(actual: T, klass: type, dtype: type | None = None, attr: str = "left")
 
     if not isinstance(value, dtype):
         raise RuntimeError(f"Expected type '{dtype}' but got '{type(value)}'")
+
     return actual  # type: ignore[return-value]
 
 
