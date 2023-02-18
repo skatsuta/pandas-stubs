@@ -861,3 +861,8 @@ def test_getitem() -> None:
     check(assert_type(i0, "pd.Index[str]"), pd.Index, str)
     check(assert_type(i0[0], Scalar), str)
     check(assert_type(i0[[0, 2]], "pd.Index[str]"), pd.Index, str)
+
+
+def test_index_copy() -> None:
+    check(assert_type(pd.Index([1, 2]).copy(), "pd.Index[int]"), pd.Index, int)
+    check(assert_type(pd.Index(["a", "b"]).copy(), "pd.Index[str]"), pd.Index, str)
