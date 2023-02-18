@@ -9,6 +9,7 @@ from typing import (
     ClassVar,
     Generic,
     Literal,
+    TypeVar,
     overload,
 )
 
@@ -53,6 +54,9 @@ from pandas._typing import (
 class InvalidIndexError(Exception): ...
 
 _str = str
+
+# Type variable used in method arguments
+_ArgT = TypeVar("_ArgT")
 
 class _IndexGetitemMixin(Generic[S1]):
     @overload
@@ -233,7 +237,7 @@ class Index(IndexOpsMixin, PandasObject, Generic[T]):
     ) -> Index[T]: ...
     @overload
     def __getitem__(self, idx: int | tuple[np_ndarray_anyint, ...]) -> Scalar: ...
-    def append(self, other): ...
+    def append(self, other: Index[_ArgT]) -> Index[T | _ArgT]: ...
     def putmask(self, mask, value): ...
     def equals(self, other) -> bool: ...
     def identical(self, other) -> bool: ...

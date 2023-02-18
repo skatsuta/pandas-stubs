@@ -878,3 +878,17 @@ def test_index_get_level_values() -> None:
     i2 = pd.Index(["a", "b"])
     check(assert_type(i2, "pd.Index[str]"), pd.Index, str)
     check(assert_type(i2.get_level_values(0), "pd.Index[str]"), pd.Index, str)
+
+
+def test_index_append() -> None:
+    idx = pd.Index([1, 2])
+
+    check(assert_type(idx, "pd.Index[int]"), pd.Index, int)
+    # Append same types
+    check(assert_type(idx.append(pd.Index([3, 4])), "pd.Index[int]"), pd.Index, int)
+    # Append different types
+    check(
+        assert_type(idx.append(pd.Index([1.5, 2.5])), "pd.Index[int | float]"),
+        pd.Index,
+        (int, float),
+    )
