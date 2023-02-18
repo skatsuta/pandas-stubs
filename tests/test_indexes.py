@@ -915,3 +915,19 @@ def test_index_map() -> None:
         pd.Index,
         str,
     )
+
+
+def test_index_delete() -> None:
+    idx = pd.Index(["a", "b", "c"])
+
+    check(assert_type(idx, "pd.Index[str]"), pd.Index, str)
+    check(assert_type(idx.delete(1), "pd.Index[str]"), pd.Index, str)
+    check(assert_type(idx.delete([0, 2]), "pd.Index[str]"), pd.Index, str)
+    check(assert_type(idx.delete((0, 2)), "pd.Index[str]"), pd.Index, str)
+    check(assert_type(idx.delete(np.asarray([0, 2])), "pd.Index[str]"), pd.Index, str)
+    check(assert_type(idx.delete(pd.Index([0, 2])), "pd.Index[str]"), pd.Index, str)
+    check(
+        assert_type(idx.delete(pd.Series([0, 2], dtype=int)), "pd.Index[str]"),
+        pd.Index,
+        str,
+    )
