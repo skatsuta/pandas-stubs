@@ -681,20 +681,10 @@ def test_interval_index_tuples():
 def test_sorted_and_list() -> None:
     # GH 497
     i1 = pd.Index([3, 2, 1])
-    check(
-        assert_type(
-            sorted(i1),
-            list,
-        ),
-        list,
-    )
-    check(
-        assert_type(
-            list(i1),
-            list,
-        ),
-        list,
-    )
+
+    check(assert_type(i1, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(sorted(i1), "list[int]"), list, int)
+    check(assert_type(list(i1), "list[int]"), list, int)
 
 
 def test_index_operators() -> None:
