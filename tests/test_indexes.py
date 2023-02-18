@@ -917,6 +917,16 @@ def test_index_map() -> None:
     )
 
 
+def test_index_insert() -> None:
+    idx = pd.Index(["a", "b"])
+
+    check(assert_type(idx, "pd.Index[str]"), pd.Index, str)
+    # Insert same type
+    check(assert_type(idx.insert(0, "c"), "pd.Index[str]"), pd.Index, str)
+    # Insert different type
+    check(assert_type(idx.insert(0, 10), "pd.Index[str | int]"), pd.Index, (str, int))
+
+
 def test_index_delete() -> None:
     idx = pd.Index(["a", "b", "c"])
 
