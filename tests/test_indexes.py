@@ -892,3 +892,26 @@ def test_index_append() -> None:
         pd.Index,
         (int, float),
     )
+
+
+def test_index_map() -> None:
+    idx = pd.Index([0, 1])
+
+    check(assert_type(idx, "pd.Index[int]"), pd.Index, int)
+    # Mapper: function
+    check(assert_type(idx.map(lambda x: x * 2), "pd.Index[int]"), pd.Index, int)
+    check(assert_type(idx.map(str), "pd.Index[str]"), pd.Index, str)
+    # Mapper: dict
+    check(assert_type(idx.map({0: 10, 1: 20}), "pd.Index[int]"), pd.Index, int)
+    check(assert_type(idx.map({0: "a", 1: "b"}), "pd.Index[str]"), pd.Index, str)
+    # Mapper: series
+    check(
+        assert_type(idx.map(pd.Series([10, 20], dtype=int)), "pd.Index[int]"),
+        pd.Index,
+        int,
+    )
+    check(
+        assert_type(idx.map(pd.Series(["a", "b"], dtype=str)), "pd.Index[str]"),
+        pd.Index,
+        str,
+    )
