@@ -129,8 +129,9 @@ def test_str_split() -> None:
 def test_index_dropna():
     idx = pd.Index([1, 2])
 
-    check(assert_type(idx.dropna(how="all"), pd.Index), pd.Index)
-    check(assert_type(idx.dropna(how="any"), pd.Index), pd.Index)
+    check(assert_type(idx, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(idx.dropna(how="all"), "pd.Index[int]"), pd.Index, int)
+    check(assert_type(idx.dropna(how="any"), "pd.Index[int]"), pd.Index, int)
 
     midx = pd.MultiIndex.from_arrays([[1, 2], [3, 4]])
 
