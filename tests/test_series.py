@@ -61,23 +61,72 @@ if TYPE_CHECKING:
     from pandas._typing import np_ndarray_int  # noqa: F401
 
 
-def test_types_init() -> None:
-    pd.Series(1)
-    pd.Series((1, 2, 3))
-    pd.Series(np.array([1, 2, 3]))
-    pd.Series(data=[1, 2, 3, 4], name="series")
-    pd.Series(data=[1, 2, 3, 4], dtype=np.int8)
-    pd.Series(data={"row1": [1, 2], "row2": [3, 4]})
-    pd.Series(data=[1, 2, 3, 4], index=[4, 3, 2, 1], copy=True)
-    # GH 90
-    dt: pd.DatetimeIndex = pd.to_datetime(
-        [1, 2], unit="D", origin=pd.Timestamp("01/01/2000")
+def test_types_new() -> None:
+    check(assert_type(pd.Series(1), "pd.Series[int]"), pd.Series, int)
+    check(assert_type(pd.Series([1, 2, 3]), "pd.Series[int]"), pd.Series, int)
+    check(assert_type(pd.Series((1, 2, 3)), "pd.Series[int]"), pd.Series, int)
+    check(assert_type(pd.Series(np.array([1, 2, 3])), pd.Series), pd.Series, int)
+    check(
+        assert_type(pd.Series(data=[1, 2, 3], name="series"), "pd.Series[int]"),
+        pd.Series,
+        int,
     )
-    pd.Series(data=dt, index=None)
-    pd.Series(data=[1, 2, 3, 4], dtype=int, index=None)
-    pd.Series(data={"row1": [1, 2], "row2": [3, 4]}, dtype=int, index=None)
-    pd.Series(data=[1, 2, 3, 4], index=None)
-    pd.Series(data={"row1": [1, 2], "row2": [3, 4]}, index=None)
+    check(
+        assert_type(pd.Series(data=[1, 2, 3], dtype=np.int8), "pd.Series[int]"),
+        pd.Series,
+        np.int8,
+    )
+    check(
+        assert_type(pd.Series(data=[1, 2, 3], dtype="int64"), "pd.Series[int]"),
+        pd.Series,
+        np.int64,
+    )
+    check(
+        assert_type(pd.Series(data={"row1": [1, 2], "row2": [3, 4]}), pd.Series),
+        pd.Series,
+        list,
+    )
+    check(
+        assert_type(
+            pd.Series(data=[1, 2, 3], index=[3, 2, 1], copy=True), "pd.Series[int]"
+        ),
+        pd.Series,
+        int,
+    )
+    # GH 90
+    dt = pd.to_datetime([1, 2], unit="D", origin=pd.Timestamp("01/01/2000"))
+    check(assert_type(dt, pd.DatetimeIndex), pd.DatetimeIndex)
+    check(
+        assert_type(pd.Series(data=dt, index=None), "TimestampSeries"),
+        pd.Series,
+        pd.Timestamp,
+    )
+    check(
+        assert_type(pd.Series(data=[1, 2, 3], dtype=int, index=None), "pd.Series[int]"),
+        pd.Series,
+        int,
+    )
+    check(
+        assert_type(
+            pd.Series(data={"row1": [1, 2], "row2": [3, 4]}, dtype=int, index=None),
+            "pd.Series[tuple]",
+        ),
+        pd.Series,
+        tuple,
+    )
+    check(
+        assert_type(pd.Series(data=[1, 2, 3], index=None), "pd.Series[int]"),
+        pd.Series,
+        int,
+    )
+    check(
+        assert_type(
+            pd.Series(data={"row1": [1, 2], "row2": [3, 4]}, index=None),
+            "pd.Series[list[int]]",
+        ),
+        pd.Series,
+        list,
+    )
 
 
 def test_types_any() -> None:
