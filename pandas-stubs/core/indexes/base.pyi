@@ -28,6 +28,7 @@ from pandas.core.strings import StringMethods
 from typing_extensions import (
     Never,
     Self,
+    TypeAlias,
 )
 
 from pandas._typing import (
@@ -38,11 +39,11 @@ from pandas._typing import (
     DtypeObj,
     FillnaOptions,
     HashableT,
-    IndexT,
     Label,
     Level,
     NaPosition,
     Scalar,
+    T,
     np_ndarray_anyint,
     np_ndarray_bool,
     np_ndarray_int64,
@@ -68,12 +69,12 @@ class _IndexGetitemMixin(Generic[S1]):
     @overload
     def __getitem__(self, idx: int) -> S1: ...
 
-class Index(IndexOpsMixin, PandasObject):
+class Index(IndexOpsMixin, PandasObject, Generic[T]):
     __hash__: ClassVar[None]  # type: ignore[assignment]
     @overload
     def __new__(
         cls,
-        data: Iterable,
+        data: Iterable[T],
         dtype: Literal["float", "int", "complex"] | type_t[complex] | type_t[np.number],
         copy: bool = ...,
         name=...,
@@ -83,13 +84,13 @@ class Index(IndexOpsMixin, PandasObject):
     @overload
     def __new__(
         cls,
-        data: Iterable = ...,
+        data: Iterable[T] = ...,
         dtype=...,
         copy: bool = ...,
         name=...,
         tupleize_cols: bool = ...,
         **kwargs,
-    ) -> Index: ...
+    ) -> Index[T]: ...
     @property
     def str(self) -> StringMethods[Index, MultiIndex]: ...
     @property
@@ -167,13 +168,22 @@ class Index(IndexOpsMixin, PandasObject):
     def duplicated(
         self, keep: Literal["first", "last", False] = ...
     ) -> np_ndarray_bool: ...
+    _Numeric: TypeAlias = int | float | complex
+    @overload
+    def __truediv__(self: Index[int], other: _Numeric | Index) -> Index[float]: ...
+    @overload
+    def __truediv__(self, other: _Numeric | Index) -> Index: ...
+    @overload
+    def __rtruediv__(self: Index[int], other: _Numeric | Index) -> Index[float]: ...
+    @overload
+    def __rtruediv__(self, other: _Numeric | Index) -> Index: ...
     def __and__(self, other: Never) -> Never: ...
     def __rand__(self, other: Never) -> Never: ...
     def __or__(self, other: Never) -> Never: ...
     def __ror__(self, other: Never) -> Never: ...
     def __xor__(self, other: Never) -> Never: ...
     def __rxor__(self, other: Never) -> Never: ...
-    def __neg__(self: IndexT) -> IndexT: ...
+    def __neg__(self) -> Index[T]: ...
     def __nonzero__(self) -> None: ...
     __bool__ = ...
     def union(self, other: list[HashableT] | Index, sort=...) -> Index: ...
@@ -210,7 +220,7 @@ class Index(IndexOpsMixin, PandasObject):
     def __setitem__(self, key, value) -> None: ...
     @overload
     def __getitem__(
-        self: IndexT,
+        self,
         idx: slice
         | np_ndarray_anyint
         | Sequence[int]
@@ -218,7 +228,7 @@ class Index(IndexOpsMixin, PandasObject):
         | Series[bool]
         | Sequence[bool]
         | np_ndarray_bool,
-    ) -> IndexT: ...
+    ) -> Index[T]: ...
     @overload
     def __getitem__(self, idx: int | tuple[np_ndarray_anyint, ...]) -> Scalar: ...
     def append(self, other): ...

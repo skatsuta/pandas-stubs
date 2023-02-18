@@ -3,7 +3,6 @@ from __future__ import annotations
 import datetime as dt
 from typing import (
     TYPE_CHECKING,
-    Tuple,
     Union,
 )
 
@@ -141,7 +140,9 @@ def test_index_dropna():
 def test_index_neg():
     # GH 253
     idx = pd.Index([1, 2])
-    check(assert_type(-idx, pd.Index), pd.Index)
+
+    check(assert_type(idx, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(-idx, "pd.Index[int]"), pd.Index, int)
 
 
 def test_types_to_numpy() -> None:
@@ -699,30 +700,44 @@ def test_index_operators() -> None:
     i1 = pd.Index([1, 2, 3])
     i2 = pd.Index([4, 5, 6])
 
-    check(assert_type(i1 + i2, pd.Index), pd.Index)
-    check(assert_type(i1 + 10, pd.Index), pd.Index)
-    check(assert_type(10 + i1, pd.Index), pd.Index)
-    check(assert_type(i1 - i2, pd.Index), pd.Index)
-    check(assert_type(i1 - 10, pd.Index), pd.Index)
-    check(assert_type(10 - i1, pd.Index), pd.Index)
-    check(assert_type(i1 * i2, pd.Index), pd.Index)
-    check(assert_type(i1 * 10, pd.Index), pd.Index)
-    check(assert_type(10 * i1, pd.Index), pd.Index)
-    check(assert_type(i1 / i2, pd.Index), pd.Index)
-    check(assert_type(i1 / 10, pd.Index), pd.Index)
-    check(assert_type(10 / i1, pd.Index), pd.Index)
-    check(assert_type(i1 // i2, pd.Index), pd.Index)
-    check(assert_type(i1 // 10, pd.Index), pd.Index)
-    check(assert_type(10 // i1, pd.Index), pd.Index)
-    check(assert_type(i1**i2, pd.Index), pd.Index)
-    check(assert_type(i1**2, pd.Index), pd.Index)
-    check(assert_type(2**i1, pd.Index), pd.Index)
-    check(assert_type(i1 % i2, pd.Index), pd.Index)
-    check(assert_type(i1 % 10, pd.Index), pd.Index)
-    check(assert_type(10 % i1, pd.Index), pd.Index)
-    check(assert_type(divmod(i1, i2), Tuple[pd.Index, pd.Index]), tuple)
-    check(assert_type(divmod(i1, 10), Tuple[pd.Index, pd.Index]), tuple)
-    check(assert_type(divmod(10, i1), Tuple[pd.Index, pd.Index]), tuple)
+    check(assert_type(i1, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i2, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1 + i2, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1 + 10, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(10 + i1, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1 - i2, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1 - 10, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(10 - i1, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1 * i2, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1 * 10, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(10 * i1, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1 / i2, "pd.Index[float]"), pd.Index, float)
+    check(assert_type(i1 / 10, "pd.Index[float]"), pd.Index, float)
+    check(assert_type(10 / i1, "pd.Index[float]"), pd.Index, float)
+    check(assert_type(i1 // i2, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1 // 10, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(10 // i1, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1**i2, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1**2, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(2**i1, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1 % i2, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1 % 10, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(10 % i1, "pd.Index[int]"), pd.Index, int)
+    check(
+        assert_type(divmod(i1, i2), "tuple[pd.Index[int], pd.Index[int]]"),
+        tuple,
+        pd.Index,
+    )
+    check(
+        assert_type(divmod(i1, 10), "tuple[pd.Index[int], pd.Index[int]]"),
+        tuple,
+        pd.Index,
+    )
+    check(
+        assert_type(divmod(10, i1), "tuple[pd.Index[int], pd.Index[int]]"),
+        tuple,
+        pd.Index,
+    )
 
     if TYPE_CHECKING_INVALID_USAGE:
         assert_type(
@@ -851,6 +866,6 @@ def test_getitem() -> None:
     check(assert_type(mi[[0, 2]], pd.MultiIndex), pd.MultiIndex, tuple)
 
     i0 = pd.Index(["a", "b", "c"])
-    check(assert_type(i0, pd.Index), pd.Index)
+    check(assert_type(i0, "pd.Index[str]"), pd.Index, str)
     check(assert_type(i0[0], Scalar), str)
-    check(assert_type(i0[[0, 2]], pd.Index), pd.Index, str)
+    check(assert_type(i0[[0, 2]], "pd.Index[str]"), pd.Index, str)
