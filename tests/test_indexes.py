@@ -34,11 +34,13 @@ else:
 
 
 def test_index_unique() -> None:
-    df = pd.DataFrame({"x": [1, 2, 3, 4]}, index=pd.Index([1, 2, 3, 2]))
-    ind = df.index
-    check(assert_type(ind, pd.Index), pd.Index)
-    i2 = ind.unique()
-    check(assert_type(i2, pd.Index), pd.Index)
+    i1 = pd.Index([1, 2, 2, 1])
+    check(assert_type(i1, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1.unique(), "pd.Index[int]"), pd.Index, int)
+
+    i2 = pd.Index(["a", "a", "b", "b"])
+    check(assert_type(i2, "pd.Index[str]"), pd.Index, str)
+    check(assert_type(i2.unique(), "pd.Index[str]"), pd.Index, str)
 
 
 def test_index_duplicated() -> None:
