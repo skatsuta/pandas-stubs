@@ -941,3 +941,18 @@ def test_index_delete() -> None:
         pd.Index,
         str,
     )
+
+
+def test_index_drop() -> None:
+    idx = pd.Index(["a", "b", "c"])
+
+    check(assert_type(idx, "pd.Index[str]"), pd.Index, str)
+    check(assert_type(idx.drop("b"), "pd.Index[str]"), pd.Index, str)
+    check(assert_type(idx.drop(["a", "c"]), "pd.Index[str]"), pd.Index, str)
+    check(assert_type(idx.drop(pd.Index(["a", "c"])), "pd.Index[str]"), pd.Index, str)
+    check(
+        assert_type(idx.drop(pd.Series(["a", "c"], dtype=str)), "pd.Index[str]"),
+        pd.Index,
+        str,
+    )
+    check(assert_type(idx.drop(iter(["a", "c"])), "pd.Index[str]"), pd.Index, str)
