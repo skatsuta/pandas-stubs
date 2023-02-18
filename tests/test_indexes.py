@@ -866,3 +866,13 @@ def test_getitem() -> None:
 def test_index_copy() -> None:
     check(assert_type(pd.Index([1, 2]).copy(), "pd.Index[int]"), pd.Index, int)
     check(assert_type(pd.Index(["a", "b"]).copy(), "pd.Index[str]"), pd.Index, str)
+
+
+def test_index_get_level_values() -> None:
+    i1 = pd.Index([1, 2])
+    check(assert_type(i1, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1.get_level_values(0), "pd.Index[int]"), pd.Index, int)
+
+    i2 = pd.Index(["a", "b"])
+    check(assert_type(i2, "pd.Index[str]"), pd.Index, str)
+    check(assert_type(i2.get_level_values(0), "pd.Index[str]"), pd.Index, str)
