@@ -76,8 +76,9 @@ def test_multiindex_get_level_values() -> None:
 
 def test_index_tolist() -> None:
     i1 = pd.Index([1, 2, 3])
-    check(assert_type(i1.tolist(), list), list, int)
-    check(assert_type(i1.to_list(), list), list, int)
+    check(assert_type(i1, "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1.tolist(), "list[int]"), list, int)
+    check(assert_type(i1.to_list(), "list[int]"), list, int)
 
 
 def test_column_getitem() -> None:
