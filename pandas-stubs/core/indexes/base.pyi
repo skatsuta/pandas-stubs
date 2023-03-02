@@ -80,6 +80,36 @@ class Index(IndexOpsMixin, PandasObject, Generic[T]):
     @overload
     def __new__(
         cls,
+        data: Iterable[int],
+        dtype: None = ...,
+        copy: bool = ...,
+        name=...,
+        tupleize_cols: bool = ...,
+        **kwargs,
+    ) -> NumericIndex: ...
+    @overload
+    def __new__(
+        cls,
+        data: Iterable[float],
+        dtype: None = ...,
+        copy: bool = ...,
+        name=...,
+        tupleize_cols: bool = ...,
+        **kwargs,
+    ) -> NumericIndex: ...
+    @overload
+    def __new__(
+        cls,
+        data: Iterable[complex],
+        dtype: None = ...,
+        copy: bool = ...,
+        name=...,
+        tupleize_cols: bool = ...,
+        **kwargs,
+    ) -> NumericIndex: ...
+    @overload
+    def __new__(
+        cls,
         data: Iterable[T],
         dtype: Literal["int", "uint", "float", "complex"]
         | type_t[int]

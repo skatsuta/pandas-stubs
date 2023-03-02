@@ -33,10 +33,16 @@ else:
         from pandas.core.indexes.numeric import NumericIndex
 
 
+def test_index_new() -> None:
+    check(assert_type(pd.Index([1, 2]), NumericIndex), NumericIndex, int)
+    check(assert_type(pd.Index([1.5, 2.5]), NumericIndex), NumericIndex, float)
+    check(assert_type(pd.Index([1j, 2j]), NumericIndex), NumericIndex, complex)
+
+
 def test_index_unique() -> None:
     i1 = pd.Index([1, 2, 2, 1])
-    check(assert_type(i1, "pd.Index[int]"), pd.Index, int)
-    check(assert_type(i1.unique(), "pd.Index[int]"), pd.Index, int)
+    check(assert_type(i1, NumericIndex), NumericIndex, int)
+    check(assert_type(i1.unique(), NumericIndex), NumericIndex, int)
 
     i2 = pd.Index(["a", "a", "b", "b"])
     check(assert_type(i2, "pd.Index[str]"), pd.Index, str)
@@ -77,10 +83,15 @@ def test_multiindex_get_level_values() -> None:
 
 
 def test_index_tolist() -> None:
-    i1 = pd.Index([1, 2, 3])
-    check(assert_type(i1, "pd.Index[int]"), pd.Index, int)
-    check(assert_type(i1.tolist(), "list[int]"), list, int)
-    check(assert_type(i1.to_list(), "list[int]"), list, int)
+    i1 = pd.Index([1, 2])
+    check(assert_type(i1, NumericIndex), NumericIndex, int)
+    check(assert_type(i1.tolist(), list), list, int)
+    check(assert_type(i1.to_list(), list), list, int)
+
+    i2 = pd.Index(["a", "b"])
+    check(assert_type(i2, "pd.Index[str]"), pd.Index, str)
+    check(assert_type(i2.tolist(), "list[str]"), list, str)
+    check(assert_type(i2.to_list(), "list[str]"), list, str)
 
 
 def test_column_getitem() -> None:
@@ -106,11 +117,7 @@ def test_column_contains() -> None:
 def test_column_sequence() -> None:
     df = pd.DataFrame([1, 2, 3])
     col_list = list(df.columns)
-    check(
-        assert_type(col_list, list),
-        list,
-        int,
-    )
+    check(assert_type(col_list, list), list, int)
 
 
 def test_difference_none() -> None:
@@ -129,24 +136,30 @@ def test_str_split() -> None:
 
 
 def test_index_dropna():
-    idx = pd.Index([1, 2])
+    idx1 = pd.Index([1, 2])
+    check(assert_type(idx1, NumericIndex), NumericIndex, int)
+    check(assert_type(idx1.dropna(how="all"), NumericIndex), NumericIndex, int)
+    check(assert_type(idx1.dropna(how="any"), NumericIndex), NumericIndex, int)
 
-    check(assert_type(idx, "pd.Index[int]"), pd.Index, int)
-    check(assert_type(idx.dropna(how="all"), "pd.Index[int]"), pd.Index, int)
-    check(assert_type(idx.dropna(how="any"), "pd.Index[int]"), pd.Index, int)
+    idx2 = pd.Index(["a", "b"])
+    check(assert_type(idx2, "pd.Index[str]"), pd.Index, str)
+    check(assert_type(idx2.dropna(how="all"), "pd.Index[str]"), pd.Index, str)
+    check(assert_type(idx2.dropna(how="any"), "pd.Index[str]"), pd.Index, str)
 
     midx = pd.MultiIndex.from_arrays([[1, 2], [3, 4]])
-
     check(assert_type(midx.dropna(how="all"), pd.MultiIndex), pd.MultiIndex)
     check(assert_type(midx.dropna(how="any"), pd.MultiIndex), pd.MultiIndex)
 
 
 def test_index_neg():
     # GH 253
-    idx = pd.Index([1, 2])
+    idx1 = pd.Index([1, 2])
+    check(assert_type(idx1, NumericIndex), NumericIndex, int)
+    check(assert_type(-idx1, NumericIndex), NumericIndex, int)
 
-    check(assert_type(idx, "pd.Index[int]"), pd.Index, int)
-    check(assert_type(-idx, "pd.Index[int]"), pd.Index, int)
+    idx2 = pd.Index(["a", "b"])
+    check(assert_type(idx2, "pd.Index[str]"), pd.Index, str)
+    check(assert_type(-idx2, "pd.Index[str]"), pd.Index, str)
 
 
 def test_types_to_numpy() -> None:
