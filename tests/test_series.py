@@ -62,7 +62,14 @@ if TYPE_CHECKING:
 
 
 def test_new() -> None:
-    pd.Series(1)
+    # Scalars
+    check(assert_type(pd.Series(False), "pd.Series[bool]"), pd.Series, np.bool_)
+    check(assert_type(pd.Series(1), "pd.Series[int]"), pd.Series, np.int64)
+    check(assert_type(pd.Series(1.5), "pd.Series[float]"), pd.Series, np.float64)
+    check(assert_type(pd.Series(1j), "pd.Series[complex]"), pd.Series, np.complex128)
+    check(assert_type(pd.Series("a"), "pd.Series[str]"), pd.Series, str)
+    check(assert_type(pd.Series(b"a"), "pd.Series[bytes]"), pd.Series, bytes)
+
     pd.Series((1, 2, 3))
     pd.Series(np.array([1, 2, 3]))
     pd.Series(data=[1, 2, 3, 4], name="series")

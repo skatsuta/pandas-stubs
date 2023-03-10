@@ -288,6 +288,67 @@ class Series(IndexOpsMixin, NDFrame, Generic[S1]):
         copy: bool = ...,
         fastpath: bool = ...,
     ) -> Series[S1]: ...
+    # Overloads for built-in scaler types
+    @overload
+    def __new__(  # type: ignore[misc] # pyright: ignore[reportOverlappingOverload]
+        cls,
+        data: bool,
+        index: Axes | None = ...,
+        dtype=...,
+        name: Hashable | None = ...,
+        copy: bool = ...,
+        fastpath: bool = ...,
+    ) -> Series[bool]: ...
+    @overload
+    def __new__(
+        cls,
+        data: int,
+        index: Axes | None = ...,
+        dtype=...,
+        name: Hashable | None = ...,
+        copy: bool = ...,
+        fastpath: bool = ...,
+    ) -> Series[int]: ...
+    @overload
+    def __new__(
+        cls,
+        data: float,
+        index: Axes | None = ...,
+        dtype=...,
+        name: Hashable | None = ...,
+        copy: bool = ...,
+        fastpath: bool = ...,
+    ) -> Series[float]: ...
+    @overload
+    def __new__(
+        cls,
+        data: complex,
+        index: Axes | None = ...,
+        dtype=...,
+        name: Hashable | None = ...,
+        copy: bool = ...,
+        fastpath: bool = ...,
+    ) -> Series[complex]: ...
+    @overload
+    def __new__(
+        cls,
+        data: str,
+        index: Axes | None = ...,
+        dtype=...,
+        name: Hashable | None = ...,
+        copy: bool = ...,
+        fastpath: bool = ...,
+    ) -> Series[str]: ...
+    @overload
+    def __new__(
+        cls,
+        data: bytes,
+        index: Axes | None = ...,
+        dtype=...,
+        name: Hashable | None = ...,
+        copy: bool = ...,
+        fastpath: bool = ...,
+    ) -> Series[bytes]: ...
     @overload
     def __new__(
         cls,
