@@ -61,7 +61,7 @@ if TYPE_CHECKING:
     from pandas._typing import np_ndarray_int  # noqa: F401
 
 
-def test_types_init() -> None:
+def test_new() -> None:
     pd.Series(1)
     pd.Series((1, 2, 3))
     pd.Series(np.array([1, 2, 3]))
