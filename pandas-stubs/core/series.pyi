@@ -199,7 +199,7 @@ class Series(IndexOpsMixin, NDFrame, Generic[S1]):
     __hash__: ClassVar[None]
 
     @overload
-    def __new__(
+    def __new__(  # type: ignore[misc]
         cls,
         data: DatetimeIndex | Sequence[Timestamp | np.datetime64 | datetime],
         index: Axes | None = ...,
@@ -219,7 +219,7 @@ class Series(IndexOpsMixin, NDFrame, Generic[S1]):
         fastpath: bool = ...,
     ) -> TimestampSeries: ...
     @overload
-    def __new__(
+    def __new__(  # type: ignore[misc]
         cls,
         data: PeriodIndex,
         index: Axes | None = ...,
@@ -229,7 +229,7 @@ class Series(IndexOpsMixin, NDFrame, Generic[S1]):
         fastpath: bool = ...,
     ) -> PeriodSeries: ...
     @overload
-    def __new__(
+    def __new__(  # type: ignore[misc]
         cls,
         data: TimedeltaIndex | Sequence[Timedelta | np.timedelta64 | timedelta],
         index: Axes | None = ...,
@@ -239,7 +239,7 @@ class Series(IndexOpsMixin, NDFrame, Generic[S1]):
         fastpath: bool = ...,
     ) -> TimedeltaSeries: ...
     @overload
-    def __new__(
+    def __new__(  # type: ignore[misc]
         cls,
         data: IntervalIndex[Interval[int]],
         index: Axes | None = ...,
@@ -249,7 +249,7 @@ class Series(IndexOpsMixin, NDFrame, Generic[S1]):
         fastpath: bool = ...,
     ) -> Series[Interval[int]]: ...
     @overload
-    def __new__(
+    def __new__(  # type: ignore[misc]
         cls,
         data: IntervalIndex[Interval[float]],
         index: Axes | None = ...,
@@ -259,7 +259,7 @@ class Series(IndexOpsMixin, NDFrame, Generic[S1]):
         fastpath: bool = ...,
     ) -> Series[Interval[float]]: ...
     @overload
-    def __new__(
+    def __new__(  # type: ignore[misc]
         cls,
         data: IntervalIndex[Interval[Timestamp]],
         index: Axes | None = ...,
@@ -269,7 +269,7 @@ class Series(IndexOpsMixin, NDFrame, Generic[S1]):
         fastpath: bool = ...,
     ) -> Series[Interval[Timestamp]]: ...
     @overload
-    def __new__(
+    def __new__(  # type: ignore[misc]
         cls,
         data: IntervalIndex[Interval[Timedelta]],
         index: Axes | None = ...,
@@ -340,7 +340,7 @@ class Series(IndexOpsMixin, NDFrame, Generic[S1]):
         fastpath: bool = ...,
     ) -> Series[str]: ...
     @overload
-    def __new__(
+    def __new__(  # type: ignore[misc] # pyright: ignore[reportOverlappingOverload]
         cls,
         data: bytes,
         index: Axes | None = ...,
@@ -349,6 +349,16 @@ class Series(IndexOpsMixin, NDFrame, Generic[S1]):
         copy: bool = ...,
         fastpath: bool = ...,
     ) -> Series[bytes]: ...
+    @overload
+    def __new__(
+        cls,
+        data: Iterable[int],
+        index: Axes | None = ...,
+        dtype=...,
+        name: Hashable | None = ...,
+        copy: bool = ...,
+        fastpath: bool = ...,
+    ) -> Series[int]: ...
     @overload
     def __new__(
         cls,

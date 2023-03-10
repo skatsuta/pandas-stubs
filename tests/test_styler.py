@@ -61,7 +61,8 @@ def test_apply_index() -> None:
     check(assert_type(DF.style.apply_index(f), Styler), Styler)
 
     def f1(s: Series) -> Series[str]:
-        return Series(s, dtype=str)
+        s2 = Series(s, dtype=str)
+        return s2
 
     check(assert_type(DF.style.apply_index(f1), Styler), Styler)
 
