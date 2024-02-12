@@ -1461,6 +1461,10 @@ class Series(IndexOpsMixin[S1], NDFrame):
     def __add__(self, other: S1 | Self) -> Self: ...
     @overload
     def __add__(
+        self: Series[Timestamp], other: Series[Timestamp] | np.timedelta64 | timedelta
+    ) -> Series[Timestamp]: ...
+    @overload
+    def __add__(
         self,
         other: num | _str | timedelta | Timedelta | _ListLike | Series | np.timedelta64,
     ) -> Series: ...
@@ -1508,9 +1512,13 @@ class Series(IndexOpsMixin[S1], NDFrame):
         self, other: int | np_ndarray_anyint | Series[int]
     ) -> Series[int]: ...
     @overload
-    def __radd__(self, other: S1 | Series[S1]) -> Self: ...
+    def __radd__(self, other: S1 | Series[S1]) -> Self: ...  # type: ignore[overload-overlap]
     @overload
     def __radd__(self, other: num | _str | _ListLike | Series) -> Series: ...
+    @overload
+    def __radd__(
+        self: Series[Timestamp], other: Series[Timedelta] | np.timedelta64 | timedelta
+    ) -> Series[Timestamp]: ...
     # ignore needed for mypy as we want different results based on the arguments
     @overload  # type: ignore[override]
     def __rand__(  # type: ignore[overload-overlap] # pyright: ignore[reportOverlappingOverload]
@@ -2004,8 +2012,6 @@ class Series(IndexOpsMixin[S1], NDFrame):
 class TimestampSeries(Series[Timestamp]):
     @property
     def dt(self) -> TimestampProperties: ...  # type: ignore[override] # pyright: ignore[reportIncompatibleMethodOverride]
-    def __add__(self, other: TimedeltaSeries | np.timedelta64 | timedelta) -> TimestampSeries: ...  # type: ignore[override] # pyright: ignore[reportIncompatibleMethodOverride]
-    def __radd__(self, other: TimedeltaSeries | np.timedelta64 | timedelta) -> TimestampSeries: ...  # type: ignore[override] # pyright: ignore[reportIncompatibleMethodOverride]
     @overload  # type: ignore[override]
     def __sub__(
         self, other: Timestamp | datetime | TimestampSeries
@@ -2055,7 +2061,7 @@ class TimedeltaSeries(Series[Timedelta]):
     def __add__(  # pyright: ignore[reportIncompatibleMethodOverride]
         self, other: timedelta | Timedelta | np.timedelta64
     ) -> TimedeltaSeries: ...
-    def __radd__(self, other: datetime | Timestamp | TimestampSeries) -> TimestampSeries: ...  # type: ignore[override] # pyright: ignore[reportIncompatibleMethodOverride]
+    def __radd__(self, other: datetime | Timestamp | TimestampSeries) -> TimestampSeries: ...  # type: ignore[misc,override] # pyright: ignore[reportIncompatibleMethodOverride]
     def __mul__(  # type: ignore[override] # pyright: ignore[reportIncompatibleMethodOverride]
         self, other: num | Sequence[num] | Series[int] | Series[float]
     ) -> TimedeltaSeries: ...
